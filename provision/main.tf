@@ -5,6 +5,13 @@ terraform {
       version = "~>2.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "OpenCohort1_SamuilPetrov_Workshop_M12_Pt2"
+    storage_account_name = "samuilterraformstorage"
+    container_name       = "terraform-state"
+    key                  = "prod.terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
