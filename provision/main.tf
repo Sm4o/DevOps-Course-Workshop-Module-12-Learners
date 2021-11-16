@@ -22,8 +22,12 @@ data "azurerm_resource_group" "main" {
   name = "OpenCohort1_SamuilPetrov_Workshop_M12_Pt2"
 }
 
+variable "prefix" {
+    type = string
+}
+
 resource "azurerm_app_service_plan" "main" {
-  name                = "samuil-terraformed-asp"
+  name                = "${var.prefix}-terraformed-asp"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   kind                = "Linux"
@@ -36,7 +40,7 @@ resource "azurerm_app_service_plan" "main" {
 }
 
 resource "azurerm_app_service" "main" {
-  name                = "samuil-terraformed-app-service"
+  name                = "${var.prefix}-terraformed-app-service"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   app_service_plan_id = azurerm_app_service_plan.main.id
@@ -54,7 +58,7 @@ resource "azurerm_app_service" "main" {
 }
 
 resource "azurerm_sql_server" "main" {
-  name                         = "samuilpetrov-non-iac-sqlserver"
+  name                         = "${var.prefix}-non-iac-sqlserver"
   resource_group_name          = data.azurerm_resource_group.main.name
   location                     = data.azurerm_resource_group.main.location
   version                      = "12.0"
@@ -67,7 +71,7 @@ resource "azurerm_sql_server" "main" {
 }
 
 resource "azurerm_sql_database" "main" {
-  name                = "samuilpetrov-non-iac-db"
+  name                = "${var.prefix}-non-iac-db"
   resource_group_name = data.azurerm_resource_group.main.name
   location            = data.azurerm_resource_group.main.location
   server_name         = azurerm_sql_server.main.name
